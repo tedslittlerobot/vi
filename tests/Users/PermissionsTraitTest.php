@@ -1,4 +1,4 @@
-<?php namespace Support\Permissions;
+<?php namespace Permissions;
 
 use Mockery as m;
 

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Scopes;
 
 use Mockery as m;
 

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Helpers;
 
 use Mockery as m;
 
-class HelpersTest extends \PHPUnit_Framework_TestCase {
+class DataAssignTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Initialise the tests
