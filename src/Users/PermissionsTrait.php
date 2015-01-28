@@ -167,7 +167,7 @@ trait PermissionsTrait {
 	 */
 	public function scopeWhereNinja(Builder $query)
 	{
-		return $query->where( $this->getPermissionsKey(), 'LIKE', "%\"{$permission}\"%" );
+		return $query->where( $this->getPermissionsKey(), 'LIKE', "%\"{$this->getPermissionsNinjaKey()}\"%" );
 	}
 
 	/**
@@ -178,7 +178,7 @@ trait PermissionsTrait {
 	 */
 	public function scopeWhereNotNinja(Builder $query)
 	{
-		return $query->where( $this->getPermissionsKey(), 'NOT LIKE', "%\"{$permission}\"%" );
+		return $query->where( $this->getPermissionsKey(), 'NOT LIKE', "%\"{$this->getPermissionsNinjaKey()}\"%" );
 	}
 
 	/**

@@ -16,6 +16,11 @@ class PermissionsTraitTest extends \PHPUnit_Framework_TestCase {
 		$this->permissions = new PermissionsTraitInstance;
 	}
 
+	public function tearDown()
+	{
+		m::close();
+	}
+
 	/**
 	 * Test the model accessor
 	 *
@@ -170,11 +175,15 @@ class PermissionsTraitTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @return void
 	 */
-	public function testninjaScope()
+	public function testNinjaScope()
 	{
-		$this->markTestIncomplete(
-			'This test needs writing'
-		);
+		$builder = m::mock('Illuminate\Database\Eloquent\Builder');
+
+		$builder->shouldReceive('where')
+			->with('permissions', 'LIKE', '%"ninja"%')
+			->once();
+
+		$this->permissions->scopeWhereNinja($builder);
 	}
 
 	/**
@@ -184,9 +193,13 @@ class PermissionsTraitTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testNotNinjaScope()
 	{
-		$this->markTestIncomplete(
-			'This test needs writing'
-		);
+		$builder = m::mock('Illuminate\Database\Eloquent\Builder');
+
+		$builder->shouldReceive('where')
+			->with('permissions', 'NOT LIKE', '%"ninja"%')
+			->once();
+
+		$this->permissions->scopeWhereNotNinja($builder);
 	}
 
 	/**
