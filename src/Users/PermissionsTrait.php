@@ -61,20 +61,16 @@ trait PermissionsTrait {
 	 *
 	 * @param array|string $permissions
 	 */
-	public function setPermissionsAttribute( $permissions )
+	public function setPermissionsAttribute( $permissions, $allowAny = false )
 	{
-		$finalPermissions = [];
+		$permissions = $this->permissionsIntersectAllowed(
+			(array) $permissions, $allowAny
+		);
 
-		foreach ( (array) $permissions as $permission )
-		{
-			if ( in_array($permission, $this->availablePermissions()) )
-				$finalPermissions[] = $permission;
-		}
-
-		natsort($finalPermissions);
+		natsort($permissions);
 
 		$this->attributes[ $this->getPermissionsKey() ] = json_encode(
-			array_values( array_unique($finalPermissions) )
+			array_values( array_unique($permissions) )
 		);
 	}
 
@@ -90,50 +86,38 @@ trait PermissionsTrait {
 		return in_array( $this->getPermissionsNinjaKey(), $this->currentPermissions() );
 	}
 
-
 	/**
 	 * Check if all of the given permissions are present
 	 *
 	 * @param  array|string $permissions
 	 * @return boolean
 	 */
-	public function can( $checkPermissions )
+	public function can( $checkPermissions, $respectNinja = true )
 	{
-		if ( $this->isNinja() ) return true;
+		if ( $respectNinja && $this->isNinja() ) return true;
 
 		$checkPermissions = is_array($checkPermissions) ? $checkPermissions : func_get_args();
 
-		$currentPermissions = $this->currentPermissions();
+		$matchedPermissions = array_intersect($checkPermissions, $this->currentPermissions());
 
-		foreach ($checkPermissions as $permission)
-		{
-			if ( ! in_array($permission, $currentPermissions) )
-				return false;
-		}
-
-		return true;
+		return $matchedPermissions == $checkPermissions;
 	}
 
 	/**
 	 * Check if any of the given permissions are present
+	 *
 	 * @param  array|string $permissions
 	 * @return boolean
 	 */
-	public function canDoAny( $checkPermissions )
+	public function canDoAny( $checkPermissions, $respectNinja = true )
 	{
-		if ( $this->isNinja() ) return true;
+		if ( $respectNinja && $this->isNinja() ) return true;
 
 		$checkPermissions = is_array($checkPermissions) ? $checkPermissions : func_get_args();
 
-		$currentPermissions = $this->currentPermissions();
+		$matchedPermissions = array_intersect($checkPermissions, $this->currentPermissions());
 
-		foreach ($checkPermissions as $permission)
-		{
-			if ( in_array($permission, $currentPermissions) )
-				return true;
-		}
-
-		return false;
+		return count( $matchedPermissions ) > 0;
 	}
 
 	// ! Modifiers
@@ -145,21 +129,20 @@ trait PermissionsTrait {
 	 */
 	public function grant( $grantPermissions )
 	{
-		// parse input to array
-		$grantPermissions = is_array($grantPermissions) ? $grantPermissions : func_get_args();
+		$grantPermissions = $this->permissionsIntersectAllowed(
+			is_array($grantPermissions) ? $grantPermissions : func_get_args()
+		);
 
-		$currentPermissions = $this->currentPermissions();
+		$this->setPermissionsAttribute(
+			array_merge($this->currentPermissions(), $grantPermissions)
+		);
 
-		foreach ($grantPermissions as $permission)
-		{
-			$currentPermissions[] = $permission;
-		}
-
-		return $this->setPermissionsAttribute( $currentPermissions );
+		return $this;
 	}
 
 	/**
 	 * Deny the given permissions from the model
+	 *
 	 * @param  array|string $permissionsToDeny
 	 * @return array
 	 */
@@ -167,16 +150,11 @@ trait PermissionsTrait {
 	{
 		$denyPermissions = is_array($denyPermissions) ? $denyPermissions : func_get_args();
 
-		$currentPermissions = $this->currentPermissions();
+		$this->setPermissionsAttribute(
+			array_diff($this->currentPermissions(), $denyPermissions)
+		);
 
-		foreach ($denyPermissions as $permission)
-		{
-			// remove it if it exists
-			if (($index = array_search($permission, $currentPermissions)) !== false)
-				array_splice($currentPermissions, $index, 1);
-		}
-
-		return $this->setPermissionsAttribute( $currentPermissions );
+		return $this;
 	}
 
 	// ! Query Scopes
@@ -290,7 +268,22 @@ trait PermissionsTrait {
 	// ! Helper methods
 
 	/**
+	 * Filter a list of permissions against the allowed permissions
+	 *
+	 * @param  array   $permissions
+	 * @param  boolean $allowAny
+	 * @return array
+	 */
+	public function permissionsIntersectAllowed( array $permissions, $allowAny = false )
+	{
+		if ($allowAny) return $permissions;
+
+		return array_intersect( $permissions, $this->availablePermissions() );
+	}
+
+	/**
 	 * Get an array of permissions for a select box
+	 *
 	 * @return array
 	 */
 	public function availablePermissionsSelect()
