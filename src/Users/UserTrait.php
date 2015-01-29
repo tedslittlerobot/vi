@@ -3,6 +3,13 @@
 trait UserTrait {
 
 	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = ['password', 'remember_token'];
+
+	/**
 	 * Capitalise the first name
 	 * @param string $firstname
 	 */
@@ -27,6 +34,16 @@ trait UserTrait {
 	public function getFullnameAttribute()
 	{
 		return "{$this->firstname} {$this->lastname}";
+	}
+
+	/**
+	 * Get the user's nickname or real name
+	 *
+	 * @return string
+	 */
+	public function getNameAttribute()
+	{
+		return $this->nickname ?: $this->getFullnameAttribute();
 	}
 
 }
