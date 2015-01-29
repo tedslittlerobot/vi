@@ -210,16 +210,7 @@ trait PermissionsTrait {
 			}
 		};
 
-		// either wrap the query in an or where ninja, or apply it raw
-		if ( ! $respectNinja )
-			return $query->whereNested($permissionsQuery);
-
-		return $query->whereNested(function($query) use ($permissionsQuery)
-		{
-			$query->where( $this->getPermissionsKey(), 'LIKE', "%\"{$this->getPermissionsNinjaKey()}\"%" );
-
-			$query->whereNested($permissionsQuery, 'or');
-		});
+		return $this->whereNestedOrNinja( $permissionsQuery, $respectNinja );
 	}
 
 	/**
@@ -253,15 +244,30 @@ trait PermissionsTrait {
 				$query->orWhere( $this->getPermissionsKey(), 'LIKE', "%\"{$permission}\"%" );
 		};
 
-		// either wrap the query in an or where ninja, or apply it raw
+		return $query->whereNestedOrNinja( $permissionsQuery, $respectNinja );
+	}
+
+	/**
+	 * Either wrap the given query closure to allow ninja autonomy, or apply
+	 * the nested query raw
+	 *
+	 * @param  Builder  $query
+	 * @param  Closure  $closure
+	 * @param  boolean  $respectNinja
+	 * @return Builder
+	 */
+	public function scopeWhereNestedOrNinja( Builder $query, Closure $closure, $respectNinja = true )
+	{
+		// if ignoring ninjas, just apply the query
 		if ( ! $respectNinja )
-			return $query->whereNested($permissionsQuery);
+			return $query->whereNested( $closure );
 
-		return $query->whereNested(function($query) use ($permissionsQuery)
+		// otherwise wrap it in a query to match ninjas
+		return $query->whereNested(function($query) use ( $closure )
 		{
-			$query->where( $this->getPermissionsKey(), 'LIKE', "%\"{$this->getPermissionsNinjaKey()}\"%" );
-
-			$query->whereNested( $permissionsQuery, 'or' );
+			$query
+				->whereNinja()
+				->whereNested( $closure, 'or' );
 		});
 	}
 
