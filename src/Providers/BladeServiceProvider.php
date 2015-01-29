@@ -128,11 +128,10 @@ class BladeServiceProvider extends ServiceProvider {
 		 */
 		return function($view, $compiler)
 		{
-			// @todo - use MessageBag instances for notices, as with errors
 			// @notice
 			$view = preg_replace(
 				$compiler->createPlainMatcher('firstnotice'),
-				'$1<?php if(count((array)Session::get("notices", array())) > 0): ; list($message) = (array)Session::get("notices", array()); ?>',
+				'$1<?php if($notices->has($2)): ; $message = $notices->first($2); ?>',
 				$view
 			);
 			// @endnotice
@@ -144,7 +143,7 @@ class BladeServiceProvider extends ServiceProvider {
 			// @notices
 			$view = preg_replace(
 				$compiler->createPlainMatcher('notices'),
-				'$1<?php foreach((array)Session::get("notices", array()) as $message): ?>',
+				'$1<?php foreach($notices->get($2) as $message): ?>',
 				$view
 			);
 			// @endnotices
