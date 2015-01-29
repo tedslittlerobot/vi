@@ -128,6 +128,7 @@ class BladeServiceProvider extends ServiceProvider {
 		 */
 		return function($view, $compiler)
 		{
+			// @todo - use MessageBag instances for notices, as with errors
 			// @notice
 			$view = preg_replace(
 				$compiler->createPlainMatcher('firstnotice'),
@@ -163,9 +164,12 @@ class BladeServiceProvider extends ServiceProvider {
 	 */
 	public function compileTitle()
 	{
+		/**
+		 * @title('Default Title')
+		 */
 		return function($view, $compiler)
 		{
-			// @title('Default Title')
+			// @todo - see if this is the best way of doing this, or a better syntax
 			$view = preg_replace(
 				$compiler->createMatcher('title'),
 				'$1<?php echo e(isset($title) ? $title : $2) ?>',
