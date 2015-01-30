@@ -1,7 +1,7 @@
 <?php namespace Vi\Providers;
 
 use Illuminate\Routing\Router;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class BladeServiceProvider extends ServiceProvider {
 
@@ -61,7 +61,7 @@ class BladeServiceProvider extends ServiceProvider {
 				$view
 			);
 			return $view;
-		});
+		};
 	}
 
 	/**
@@ -169,6 +169,7 @@ class BladeServiceProvider extends ServiceProvider {
 		return function($view, $compiler)
 		{
 			// @todo - see if this is the best way of doing this, or a better syntax
+			// @todo - is this any better than {{ $title or 'default' }} ? i'm pretty sure there was something more useful i wanted this to do
 			$view = preg_replace(
 				$compiler->createMatcher('title'),
 				'$1<?php echo e(isset($title) ? $title : $2) ?>',
