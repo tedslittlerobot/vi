@@ -11,6 +11,7 @@ trait UserTrait {
 
 	/**
 	 * Capitalise the first name
+	 *
 	 * @param string $firstname
 	 */
 	public function setFirstnameAttribute( $firstname )
@@ -20,6 +21,7 @@ trait UserTrait {
 
 	/**
 	 * Captialise the last name
+	 *
 	 * @param string $lastname
 	 */
 	public function setLastnameAttribute( $lastname )
@@ -29,11 +31,12 @@ trait UserTrait {
 
 	/**
 	 * Get the user's full name
+	 *
 	 * @return string
 	 */
 	public function getFullnameAttribute()
 	{
-		return "{$this->firstname} {$this->lastname}";
+		return "{$this->getFirstnameAttribute()} {$this->getLastnameAttribute()}";
 	}
 
 	/**
@@ -43,7 +46,7 @@ trait UserTrait {
 	 */
 	public function getNameAttribute()
 	{
-		return $this->nickname ?: $this->getFullnameAttribute();
+		return $this->getNicknameAttribute() ?: $this->getFullnameAttribute();
 	}
 
 }
