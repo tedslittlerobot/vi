@@ -1,6 +1,6 @@
 {
-    "name": "tlr/laravel-support",
-    "description": "Common things for laravel projects",
+    "name": "vi/core",
+    "description": "In progress",
     "require": {
         "laravel/framework": "5.*",
         "adamgoose/laravel-annotations": "~5.0"
