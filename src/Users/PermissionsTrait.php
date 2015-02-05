@@ -72,6 +72,8 @@ trait PermissionsTrait {
 		$this->attributes[ $this->getPermissionsKey() ] = json_encode(
 			array_values( array_unique($permissions) )
 		);
+
+		return $this;
 	}
 
 	// ! Comparators
@@ -124,6 +126,7 @@ trait PermissionsTrait {
 
 	/**
 	 * Grant the given permissions to the model
+	 *
 	 * @param  array|string $permissions
 	 * @return array
 	 */
@@ -136,6 +139,23 @@ trait PermissionsTrait {
 		$this->setPermissionsAttribute(
 			array_merge($this->currentPermissions(), $grantPermissions)
 		);
+
+		return $this;
+	}
+
+	/**
+	 * Grant the ninja permission to the model
+	 *
+	 * @param  array|string $permissions
+	 * @return array
+	 */
+	public function grantNinja()
+	{
+		$permissions = $this->currentPermissions();
+
+		$permissions[] = $this->getPermissionsNinjaKey();
+
+		$this->setPermissionsAttribute( $permissions, true );
 
 		return $this;
 	}
