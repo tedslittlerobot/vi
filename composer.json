@@ -3,7 +3,7 @@
     "description": "In progress",
     "require": {
         "laravel/framework": "5.*",
-        "adamgoose/laravel-annotations": "~5.0"
+        "laravelcollective/annotations": "~5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
