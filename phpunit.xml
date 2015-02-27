@@ -11,7 +11,7 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="unit">
-            <directory>./tests/</directory>
+            <directory>./tests/unit/</directory>
         </testsuite>
     </testsuites>
     <php>
