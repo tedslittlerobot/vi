@@ -17,10 +17,10 @@
         "classmap": [
         ],
         "files": [
-            "lib/Support/helpers.php"
+            "src/Support/helpers.php"
         ],
         "psr-4": {
-            "Vi\\": "lib/"
+            "Vi\\": "src/"
         }
     },
     "autoload-dev": {
