@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-use Vi\Users\UserTrait;
+use Vi\Core\Users\UserTrait;
 
 class UserTraitTest extends \PHPUnit_Framework_TestCase {
 

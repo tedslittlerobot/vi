@@ -1,13 +1,6 @@
-<?php namespace Vi\Users;
+<?php namespace Vi\Core\Users;
 
 trait UserTrait {
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token'];
 
 	/**
 	 * Capitalise the first name

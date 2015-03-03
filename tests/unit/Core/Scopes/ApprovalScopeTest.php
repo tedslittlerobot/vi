@@ -4,7 +4,7 @@ use Mockery as m;
 
 use Illuminate\Database\Query\Expression;
 
-use Vi\Scopes\ApprovalScope;
+use Vi\Core\Scopes\ApprovalScope;
 
 class ApprovalScopeTest extends \PHPUnit_Framework_TestCase {
 

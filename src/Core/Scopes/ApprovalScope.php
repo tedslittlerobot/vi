@@ -1,4 +1,4 @@
-<?php namespace Vi\Scopes;
+<?php namespace Vi\Core\Scopes;
 
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Builder;

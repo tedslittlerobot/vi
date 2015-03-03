@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-use Vi\Users\PermissionsTrait;
+use Vi\Core\Users\PermissionsTrait;
 
 class PermissionsTraitTest extends \PHPUnit_Framework_TestCase {
 

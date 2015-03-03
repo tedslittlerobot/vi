@@ -1,10 +1,10 @@
-<?php namespace Vi\Users;
+<?php namespace Vi\Core\Users;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 
-use Vi\Notifications\NotificationOwnerTrait as NotificationOwner;
+use Vi\Core\Notifications\NotificationOwnerTrait as NotificationOwner;
 
 class User extends Model implements AuthenticatableContract {
 

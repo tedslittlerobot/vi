@@ -4,7 +4,7 @@ use Mockery as m;
 
 use Carbon\Carbon;
 
-use Vi\Scopes\ApprovalTrait;
+use Vi\Core\Scopes\ApprovalTrait;
 
 class ApprovalTraitTest extends \PHPUnit_Framework_TestCase {
 

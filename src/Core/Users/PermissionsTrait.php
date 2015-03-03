@@ -1,4 +1,4 @@
-<?php namespace Vi\Users;
+<?php namespace Vi\Core\Users;
 
 use Illuminate\Database\Eloquent\Builder;
 

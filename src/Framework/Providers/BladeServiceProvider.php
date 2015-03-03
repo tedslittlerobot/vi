@@ -1,4 +1,4 @@
-<?php namespace Vi\Providers;
+<?php namespace Vi\Framework\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;

@@ -1,8 +1,8 @@
-<?php namespace Vi\Notifications;
+<?php namespace Vi\Core\Notifications;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Vi\Users\User;
+use Vi\Core\Users\User;
 
 class Notification extends Model {
 

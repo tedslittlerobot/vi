@@ -4,8 +4,8 @@ use Mockery as m;
 
 use Carbon\Carbon;
 
-use Vi\Scopes\PublishingScope;
-use Vi\Scopes\PublishingTrait;
+use Vi\Core\Scopes\PublishingScope;
+use Vi\Core\Scopes\PublishingTrait;
 
 class PublishingTraitTest extends \PHPUnit_Framework_TestCase {
 

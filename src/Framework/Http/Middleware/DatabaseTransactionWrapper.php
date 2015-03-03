@@ -1,4 +1,4 @@
-<?php namespace Vi\Http\Middleware;
+<?php namespace Vi\Framework\Http\Middleware;
 
 use Closure;
 

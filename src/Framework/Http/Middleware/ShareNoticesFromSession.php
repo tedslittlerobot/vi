@@ -1,6 +1,7 @@
-<?php namespace Vi\Notices\Middleware;
+<?php namespace Vi\Framework\Notices\Middleware;
 
 use Closure;
+
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 use Illuminate\Contracts\View\Factory as ViewFactory;

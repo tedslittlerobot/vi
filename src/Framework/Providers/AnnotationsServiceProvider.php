@@ -1,6 +1,6 @@
-<?php namespace Vi\Providers;
+<?php namespace Vi\Framework\Providers;
 
-use Adamgoose\AnnotationsServiceProvider as ServiceProvider;
+use Collective\Annotations\AnnotationsServiceProvider as ServiceProvider;
 
 class AnnotationsServiceProvider extends ServiceProvider {
 

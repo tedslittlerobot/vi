@@ -4,7 +4,7 @@ use Mockery as m;
 
 use Illuminate\Database\Query\Expression;
 
-use Vi\Scopes\PublishingScope;
+use Vi\Core\Scopes\PublishingScope;
 
 class PublishingScopeTest extends \PHPUnit_Framework_TestCase {
 

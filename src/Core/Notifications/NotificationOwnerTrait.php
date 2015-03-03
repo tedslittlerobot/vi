@@ -1,4 +1,4 @@
-<?php namespace Vi\Notifications;
+<?php namespace Vi\Core\Notifications;
 
 trait NotificationOwnerTrait {
 
