@@ -1,13 +1,42 @@
-<?php namespace Vi\Support;
+<?php namespace Vi\Display\Table;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Stringy\StaticStringy as Stringy;
 
 // @todo add actions for rows
 // @todo add header and footer section
 
 class TabularPresenter implements Renderable {
+
+	/**
+	 * The key used to specify ascending sorting
+	 *
+	 * @var string
+	 */
+	public static $sortAscending = 'ascending';
+
+	/**
+	 * The key used to specify descending sorting
+	 *
+	 * @var string
+	 */
+	public static $sortDescending = 'descending';
+
+	/**
+	 * The view factory instance
+	 *
+	 * @var \Illuminate\Contracts\View\Factory
+	 */
+	protected $viewFactory;
+
+	/**
+	 * The Url Generator instance
+	 *
+	 * @var \Illuminate\Contracts\Routing\UrlGenerator
+	 */
+	protected $url;
 
 	/**
 	 * The items to loop over
@@ -30,10 +59,12 @@ class TabularPresenter implements Renderable {
 	 */
 	protected $sortableColumns = [];
 
+	/**
+	 * The view to render the table with
+	 *
+	 * @var string
+	 */
 	protected $view = 'vi::support.table';
-
-	protected $viewFactory;
-	protected $url;
 
 	public function __construct( Factory $view, UrlGenerator $url )
 	{
@@ -115,13 +146,17 @@ class TabularPresenter implements Renderable {
 	/**
 	 * Generate a link to sort the content by the given column
 	 *
+	 * @todo  - test for default sorting
+	 * @todo  - test query makes sense - ie currently column => direction. maybe
+	 * sort => column and direction => direction?
+	 *
 	 * @param  string $column
 	 * @return string
 	 */
 	public function sortingLink( $column )
 	{
-		$direction = $this->url->getRequest()->query->get($column) == 'ascending' ?
-			'descending' : 'ascending';
+		$direction = $this->url->getRequest()->query->get($column) == static::$sortDescending ?
+			static::$sortAscending : static::$sortDescending;
 
 		return $this->url->current() . '?' . http_build_query([$column => $direction]);
 	}
@@ -136,7 +171,7 @@ class TabularPresenter implements Renderable {
 	{
 		$direction = $this->url->getRequest()->query->get($column);
 
-		return in_array($direction, ['ascending' : 'descending']) ?
+		return in_array($direction, [static::$sortAscending : static::$sortDescending]) ?
 			$direction : null;
 	}
 
@@ -152,7 +187,13 @@ class TabularPresenter implements Renderable {
 	}
 
 	/**
-	 * Get the header text for the given field
+	 * Get the header text for the given field.
+	 *
+	 * It will look for defined methods in the format `formatColumnHeader()`,
+	 * where `Column` is the studly name of the column.
+	 *
+	 * If no custom methods are used, it will convert the column to a human
+	 * readable string.
 	 *
 	 * @param  string $column
 	 * @return string
@@ -162,12 +203,20 @@ class TabularPresenter implements Renderable {
 		$method = 'format' . studly_case($column) . 'Header';
 
 		return method_exists($this, $method)
-			$this->{$method}($column) :
-			ucwords($column);
+			$this->{$method}() :
+			ucwords( Stringy::humanize( snake_case($column) ) );
 	}
 
 	/**
-	 * Get the field value for an item
+	 * Get the field value for an item.
+	 *
+	 * It will look for defined methods in the format
+	 * `formatColumnField($item)`, where `Column` is the studly name of the
+	 * column.
+	 *
+	 * If there is a custom method for the field, that will be returned,
+	 * unescaped. By default, it will attempt to get the property off the model,
+	 * and escape it.
 	 *
 	 * @param  mixed  $item
 	 * @param  string $column
@@ -178,8 +227,19 @@ class TabularPresenter implements Renderable {
 		$method = 'format' . studly_case($column) . 'Value';
 
 		return method_exists($this, $method) ?
-			$this->{$method}($column) :
-			$item->{$column};
+			$this->{$method}($item) :
+			$this->escape( $item->{$column} );
+	}
+
+	/**
+	 * Escape the given content
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	protected function escape( $value )
+	{
+		return e( $value );
 	}
 
 }
