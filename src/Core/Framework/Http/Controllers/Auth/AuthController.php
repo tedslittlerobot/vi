@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite as Socialize;
 
 use Vi\Core\Framework\Http\Controllers\Controller;
 
@@ -15,6 +16,8 @@ class AuthController extends Controller {
 	{
 		$this->guard = $guard;
 	}
+
+	// ! Login / Logout
 
 	/**
 	 * @Get("log/me/in", as="login")
@@ -59,6 +62,46 @@ class AuthController extends Controller {
 		// return redirect( route('home') ); // @todo - home route
 	}
 
-	// @todo - password reset
+	// ! Password Reset
+	// @todo - actually implement password reset
+
+	// ! Social Login
+	// @todo - move to separate class / trait?
+
+	/**
+	 * The enabled social providers
+	 *
+	 * @todo  - move to separate class / config?
+	 * @todo  - allow specifying scopes on each provider
+	 *
+	 * @var array
+	 */
+	protected $socialProviders = [];
+
+	/**
+	 * @Get("log/me/in/socially/with/{social_provider}")
+	 *
+	 * @todo - route bind social_provider
+	 */
+	public function redirectToProvider( $provider )
+	{
+		if ( !in_array($provider, $this->socialProviders) )
+			abort(404, "No Such Provider");
+
+		return Socialize::with( $provider )
+			->scopes([])
+			->redirect();
+	}
+
+	/**
+	 * @Get("log/me/in/now/through/{social_provider}")
+	 */
+	public function handleProviderCallback( $provider )
+	{
+		$user = Socialize::with( $provider )->user();
+
+		// @todo - map user to db, add tokens, save, login, redirect to login url (admin?)
+		abort(501, "Social Login Not Finished");
+	}
 
 }
