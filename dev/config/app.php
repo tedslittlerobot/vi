@@ -139,6 +139,8 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
+		'Collective\Html\HtmlServiceProvider',
+
 		'Vi\ViServiceProvider',
 
 		'Vi\Core\Framework\Providers\AnnotationsServiceProvider',
@@ -198,6 +200,9 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+		'Form'      => 'Collective\Html\FormFacade',
+		'Html'      => 'Collective\Html\HtmlFacade',
 
 	],
 

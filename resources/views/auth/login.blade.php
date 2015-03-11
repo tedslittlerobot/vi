@@ -1,13 +1,15 @@
 
 <h1>Login</h1>
 
-{{ $errors->first('email') }}
+{{ $errors->first('login') }}
 
 {!! Form::open( ['route' => 'login.process'] ) !!}
 
+	{{ $errors->first('email') }}
 	{!! Form::label('email', 'Email') !!}
 	{!! Form::email('email') !!}
 
+	{{ $errors->first('password') }}
 	{!! Form::label('password', 'Password') !!}
 	{!! Form::password('password') !!}
 

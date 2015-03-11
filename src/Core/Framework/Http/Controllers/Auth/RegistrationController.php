@@ -16,4 +16,6 @@ class RegistrationController extends Controller {
 		$this->guard = $guard;
 	}
 
+	// @todo - user registration
+
 }

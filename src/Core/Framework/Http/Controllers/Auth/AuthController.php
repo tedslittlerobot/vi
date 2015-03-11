@@ -27,7 +27,7 @@ class AuthController extends Controller {
 	}
 
 	/**
-	 * @Get("i/am/important", as="login.process")
+	 * @Post("i/am/important", as="login.process")
 	 */
 	public function processLogin( Request $request )
 	{
@@ -46,7 +46,7 @@ class AuthController extends Controller {
 		return redirect( route('login') )
 			->withInput( $request->only('email', 'remember') )
 			->withErrors([
-				'email' => trans( 'vi::validation.login' ),
+				'login' => trans( 'vi::validation.login' ),
 			]);
 	}
 
