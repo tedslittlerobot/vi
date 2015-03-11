@@ -1,4 +1,4 @@
-<?php namespace Vi\Framework\Providers;
+<?php namespace Vi\Core\Framework\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -6,14 +6,9 @@ use Illuminate\Support\ServiceProvider;
 class BladeServiceProvider extends ServiceProvider {
 
 	/**
-	 * Define the routes for the application.
-	 *
-	 * @return void
+	 * @{inheritdoc}
 	 */
-	public function map()
-	{
-		$this->loadRoutesFrom(app_path('Http/routes.php'));
-	}
+	public function register() {}
 
 	/**
 	 * Boot the service provider
