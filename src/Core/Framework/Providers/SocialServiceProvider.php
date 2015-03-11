@@ -17,17 +17,22 @@ class SocialServiceProvider extends ServiceProvider {
 		$this->app['router']->bind('social_provider', function($name)
 		{
 			$key = "social.providers.{$name}";
+			$config = $this->app['config'];
 
-			if ( ! $this->app['config']->has( $key ) )
+			if ( ! $config->has( $key ) )
 			{
 				abort(404, "There is no social provider: \"$name\"");
 			}
 
-			$scopes = $this->app['config']
-				->get("{$key}.scopes", []);
+			$provider = $this->app[ Factory::class ]->with( $name );
 
-			return $this->app[ Factory::class ]->with( $name )
-				->scopes( (array) $scopes );
+			// If set, override providers default scopes
+			if ( $config->has("{$key}.scopes") )
+			{
+				$provider->scopes( (array) $config->get("{$key}.scopes") );
+			}
+
+			return $provider;
 		});
 	}
 
