@@ -1,4 +1,4 @@
-<?php namespace Vi\Framework\Providers;
+<?php namespace Vi\Core\Framework\Providers;
 
 use Collective\Annotations\AnnotationsServiceProvider as ServiceProvider;
 
@@ -31,5 +31,19 @@ class AnnotationsServiceProvider extends ServiceProvider {
 	 * @var boolean
 	 */
 	protected $scanControllers = true;
+
+	/**
+	 * @{inheritdoc}
+	 */
+	public function routeScans() {
+		$classes = parent::routeScans();
+
+		$viClasses = $this->app->make('Illuminate\Filesystem\ClassFinder')
+			->findClasses( realpath(__DIR__ . '/../Http/Controllers') );
+
+		$classes = array_merge( $classes, $viClasses );
+
+		return $classes;
+	}
 
 }

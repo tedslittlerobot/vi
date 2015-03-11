@@ -139,6 +139,9 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
+
+		'Vi\Core\Framework\Providers\AnnotationsServiceProvider',
+
 		'App\Providers\AppServiceProvider',
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
