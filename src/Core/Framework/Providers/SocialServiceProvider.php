@@ -3,6 +3,7 @@
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\SocialiteServiceProvider;
 
 class SocialServiceProvider extends ServiceProvider {
 
@@ -33,6 +34,9 @@ class SocialServiceProvider extends ServiceProvider {
 	/**
 	 * @{inheritdoc}
 	 */
-	public function register() {}
+	public function register()
+	{
+		$this->app->register( SocialiteServiceProvider::class );
+	}
 
 }
