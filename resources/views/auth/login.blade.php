@@ -4,7 +4,7 @@
 {{ $errors->first('login') }}
 
 {!! Form::open( ['route' => 'login.process'] ) !!}
-
+	{!! @todo notices !!}
 	{{ $errors->first('email') }}
 	{!! Form::label('email', 'Email') !!}
 	{!! Form::email('email') !!}
