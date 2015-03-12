@@ -61,7 +61,4 @@ class AuthController extends Controller {
 		// return redirect( route('home') ); // @todo - home route
 	}
 
-	// ! Password Reset
-	// @todo - actually implement password reset
-
 }
