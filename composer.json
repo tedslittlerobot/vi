@@ -38,5 +38,5 @@
             "email": "stef@tedslittlerobot.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
