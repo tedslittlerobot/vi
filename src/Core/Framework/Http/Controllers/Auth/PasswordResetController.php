@@ -41,7 +41,7 @@ class PasswordResetController extends Controller {
 	/**
 	 * @Get("here/is/my/code/{reset_token}/reset/my/password", as="auth.password-reset.reset")
 	 */
-	public function showResetRequestForm( $token )
+	public function showPasswordResetForm( $token )
 	{
 		return view('vi::auth.password-reset.reset');
 	}
@@ -49,7 +49,7 @@ class PasswordResetController extends Controller {
 	/**
 	 * @Put("here/is/my/code/{reset_token}/reset/my/password", as="auth.password-reset.reset.process")
 	 */
-	public function ( Request $request )
+	public function resetPassword( Request $request )
 	{
 		// @todo actually reset the password
 
