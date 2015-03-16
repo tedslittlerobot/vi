@@ -1,4 +1,4 @@
-<?php namespace Vi\Core\Users;
+<?php namespace Vi\Core\Auth\Permissions;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -63,7 +63,7 @@ trait PermissionsTrait {
 	 */
 	public function setPermissionsAttribute( $permissions, $allowAny = false )
 	{
-		$permissions = $this->permissionsIntersectAllowed(
+		$permissions = $this->permissionsFilterByAvailable(
 			(array) $permissions, $allowAny
 		);
 
@@ -132,7 +132,7 @@ trait PermissionsTrait {
 	 */
 	public function grant( $grantPermissions )
 	{
-		$grantPermissions = $this->permissionsIntersectAllowed(
+		$grantPermissions = $this->permissionsFilterByAvailable(
 			is_array($grantPermissions) ? $grantPermissions : func_get_args()
 		);
 
@@ -294,13 +294,13 @@ trait PermissionsTrait {
 	// ! Helper methods
 
 	/**
-	 * Filter a list of permissions against the allowed permissions
+	 * Filter a list of permissions against the available permissions
 	 *
 	 * @param  array   $permissions
 	 * @param  boolean $allowAny
 	 * @return array
 	 */
-	public function permissionsIntersectAllowed( array $permissions, $allowAny = false )
+	public function permissionsFilterByAvailable( array $permissions, $allowAny = false )
 	{
 		if ($allowAny) return $permissions;
 
