@@ -4,6 +4,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
 
+use Vi\Core\Auth\Registration\SendsConfirmationEmail;
+use Vi\Core\Auth\Registration\RegistererInterface as Registerer;
 use Vi\Core\Framework\Http\Controllers\Controller;
 
 /**
@@ -11,12 +13,10 @@ use Vi\Core\Framework\Http\Controllers\Controller;
  */
 class RegistrationController extends Controller {
 
-	public function __construct( Guard $guard )
+	public function __construct( Registerer $registerer )
 	{
-		$this->guard = $guard;
+		$this->registerer = $registerer;
 	}
-
-	// @todo - user registration
 
 	/**
 	 * @Get("i/want/in", as="register")
@@ -29,46 +29,32 @@ class RegistrationController extends Controller {
 	/**
 	 * @Post("register/me/now", as="register.process")
 	 */
-	public function register()
+	public function register(Request $request)
 	{
-		// @todo - if registered and unconfirmed / unapproved
-		if(false)
+		$user = $this->registerer->register( $request->input() );
+
+		if ( $this->registerer instanceof SendsConfirmationEmail )
 		{
-			return redirect( route( 'register.processed' ) );
+			$this->registerer->sendConfirmationEmail( $user );
 		}
 
-		// @todo - do registration - request, repo, etc.
-		// @todo set registered data in session
+		// @todo add notice
 
-		return redirect( route( 'register.processed' ) );
-	}
-
-	/**
-	 * @Get("still/not/finished")
-	 *
-	 * @todo limit access by session
-	 */
-	public function processed()
-	{
-		return view('vi::auth.registration.registered');
-	}
-
-	/**
-	 * @Post("i/lost/that/email/you/sent")
-	 */
-	public function resendConfirmEmail()
-	{
-		// @todo resend registration confirmation
-		// @todo flash notice
+		return redirect( route( 'login' ) );
 	}
 
 	/**
 	 * @Get("i/clicked/the/confirm/email/{confirm_code}")
 	 */
-	public function confirm()
+	public function confirm( $code, Request $request )
 	{
-		// @todo check confirm code
-		// @todo confirm / approve user
+		if ( ! $this->registerer instanceof SendsConfirmationEmail )
+		{
+			abort(404);
+		}
+
+		$this->registerer->confirm( $code, $request->input() );
+
 		return redirect( route('admin') );
 	}
 
