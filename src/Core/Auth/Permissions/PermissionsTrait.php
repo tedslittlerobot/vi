@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @todo move basic getters and setters away from query logic (so groups and users can share some logic)
+ */
 trait PermissionsTrait {
 
 	// ! Getters and Setters
