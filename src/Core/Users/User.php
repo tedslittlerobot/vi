@@ -4,6 +4,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 
+use Vi\Core\Permissions\PermissionsTrait;
 use Vi\Core\Notifications\NotificationOwnerTrait as NotificationOwner;
 
 class User extends Model implements AuthenticatableContract {

@@ -4,6 +4,9 @@ use Vi\Core\Auth\Registration\RegistererInterface;
 use Vi\Core\Auth\Registration\SendsConfirmationEmail;
 use Vi\Core\Users\User;
 
+/**
+ * @todo bind to registerer interface
+ */
 class Registerer implements RegistererInterface, SendsConfirmationEmail {
 
 	public function __construct()
