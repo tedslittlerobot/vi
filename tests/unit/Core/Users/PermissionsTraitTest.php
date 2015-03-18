@@ -4,7 +4,7 @@ use Mockery as m;
 
 use Vi\Core\Auth\Permissions\PermissionsTrait;
 
-class PermissionsTraitTest extends \PHPUnit_Framework_TestCase {
+class PermissionsTraitTest extends \TestCase {
 
 	/**
 	 * Initialise the tests

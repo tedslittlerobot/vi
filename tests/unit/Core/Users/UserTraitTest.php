@@ -4,7 +4,7 @@ use Mockery as m;
 
 use Vi\Core\Users\UserTrait;
 
-class UserTraitTest extends \PHPUnit_Framework_TestCase {
+class UserTraitTest extends \TestCase {
 
 	/**
 	 * Initialise the tests
