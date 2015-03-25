@@ -33,3 +33,4 @@ composer.lock
 
 # phpstorm
 .idea
+dev/vendor
