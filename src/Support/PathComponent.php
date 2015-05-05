@@ -21,7 +21,12 @@ class PathComponent {
 	 *
 	 * @var string
 	 */
-	protected $delimiter = '/';
+	protected static $delimiter = '/';
+
+	public function __construct( $components = [] )
+	{
+		$this->add( $components );
+	}
 
 	/////// MUTATORS ///////
 
@@ -34,9 +39,9 @@ class PathComponent {
 	 */
 	public function prepend( $value, $raw = false )
 	{
-		foreach ( $this->parseRaw( $value, $raw ) as $component )
+		foreach ( static::parseRaw( $value, $raw ) as $component )
 		{
-			array_unshift($this->components, $component);
+			array_unshift( $this->components, static::sanitize($component) );
 		}
 
 		return $this;
@@ -51,9 +56,9 @@ class PathComponent {
 	 */
 	public function add( $value, $raw = false )
 	{
-		foreach ( $this->parseRaw( $value, $raw ) as $component )
+		foreach ( static::parseRaw( $value, $raw ) as $component )
 		{
-			$this->components[] = $component;
+			$this->components[] = static::sanitize( $component );
 		}
 
 		return $this;
@@ -69,6 +74,18 @@ class PathComponent {
 	public function pop()
 	{
 		return array_pop( $this->components );
+	}
+
+	/**
+	 * Set the root path string
+	 *
+	 * @param string $base
+	 */
+	public function setBase( $base = '' )
+	{
+		$this->base = $base;
+
+		return $this;
 	}
 
 	/////// ACCESSORS ///////
@@ -165,10 +182,10 @@ class PathComponent {
 	{
 		if ( $escape )
 		{
-			$components = array_map($components, [$this, 'escape']);
+			$components = array_map($components, [static::class, 'escape']);
 		}
 
-		return implode($this->delimiter, $components);
+		return implode(static::$delimiter, $components);
 	}
 
 	/**
@@ -200,24 +217,73 @@ class PathComponent {
 	 * Parse the component into an array of components, optionally spliting the
 	 * by the delimiter
 	 *
-	 * @param  string  $value
+	 * This method looks horrible, but it's to handle various useful sets of
+	 * things to pass in
+	 *
+	 * @param  mixed   $value
 	 * @param  boolean $raw
 	 * @return array
 	 */
-	protected function parseRaw( $value, $raw = false )
+	protected static function parseRaw( $value, $raw = false )
 	{
-		return $raw ? (array)$value : explode($this->delimiter, $value);
+		$parsed = [];
+
+		foreach( (array) $value as $newValue )
+		{
+			if (is_array( $newValue ))
+			{
+				$parsed = array_merge($parsed, static::parseRaw( $newValue, $raw ));
+			}
+			else
+			{
+				foreach( explode(static::$delimiter, $newValue) as $component )
+				{
+					$parsed[] = static::sanitize( $component );
+				}
+			}
+		}
+
+		return $parsed;
 	}
 
 	/**
-	 * Escape the given component
+	 * Escape the given component before output
 	 *
 	 * @param  string $component
 	 * @return string
 	 */
-	public function escape( $component )
+	public static function escape( $component )
 	{
-		return str_replace($this->delimiter, '\\' . $this->delimiter, $component);
+		return str_replace(static::$delimiter, '\\' . static::$delimiter, $component);
+	}
+
+	/**
+	 * Trim the delimiter off a newly added component
+	 *
+	 * @param  string $component
+	 * @return string
+	 */
+	public static function sanitize( $component )
+	{
+		return trim($component, static::$delimiter);
+	}
+
+	/////// STATIC ///////
+
+	/**
+	 * Add some paths together
+	 *
+	 * @param mixed  $components
+	 * @param string $base
+	 */
+	public static function addPaths( $components )
+	{
+		$components = is_array($components) ? $components : func_get_args();
+
+		$path = (new static)
+			->add( $components )
+			->setBase( $base )
+			->render();
 	}
 
 }
