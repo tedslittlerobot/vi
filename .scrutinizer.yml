@@ -1,7 +1,8 @@
 filter:
-    excluded_paths:
-        - 'tests/*'
-checks:
+    paths:
+        - src/*
+        - dev/*
+hecks:
     php:
         uppercase_constants: true
         return_doc_comments: true
