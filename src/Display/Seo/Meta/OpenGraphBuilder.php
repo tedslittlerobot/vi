@@ -36,4 +36,18 @@ class OpenGraphBuilder {
 		return $output;
 	}
 
+	/**
+	 * Handle dynamic method calls
+	 *
+	 * @todo parse method to get names from `$this->propertyNameTag($value)`
+	 * @param  string $method
+	 * @param  string $arguments
+	 * @return
+	 */
+	public function __call( $method, array $arguments )
+	{
+		list($value) = $arguments;
+		return $this->tag( snake_case($method), $value );
+	}
+
 }
