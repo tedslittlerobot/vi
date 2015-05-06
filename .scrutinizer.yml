@@ -2,7 +2,7 @@ filter:
     paths:
         - src/*
         - dev/*
-hecks:
+checks:
     php:
         uppercase_constants: true
         return_doc_comments: true
