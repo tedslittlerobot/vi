@@ -17,11 +17,11 @@ class OpenGraphBuilder {
 	/**
 	 * Generate a set of open graph tags for an image
 	 *
-	 * @param  string $url
-	 * @param  string $width
-	 * @param  string $height
-	 * @param  string $type
-	 * @param  string $secure
+	 * @param  string      $url
+	 * @param  string|null $width
+	 * @param  string|null $height
+	 * @param  string|null $type
+	 * @param  string|null $secure
 	 * @return string
 	 */
 	public function imageTag( $url, $width = null, $height = null, $type = null, $secure = null )
