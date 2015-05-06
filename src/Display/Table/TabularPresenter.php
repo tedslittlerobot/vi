@@ -183,7 +183,7 @@ class TabularPresenter implements Renderable {
 	 */
 	public function isSortable( $column )
 	{
-		return in_array($this->sortableColumns, $column)
+		return in_array($this->sortableColumns, $column);
 	}
 
 	/**
