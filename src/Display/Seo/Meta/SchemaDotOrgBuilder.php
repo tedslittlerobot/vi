@@ -1,6 +1,6 @@
 <?php namespace Vi\Display\Seo\Meta;
 
-trait SchemaDotOrgTrait {
+class SchemaDotOrgBuilder {
 
 	use MetaTrait;
 

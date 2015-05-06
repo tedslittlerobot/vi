@@ -2,7 +2,7 @@
 
 class MetaBuilder {
 
-	use MetaTrait, OpenGraphTrait;
+	use MetaTrait;
 
 	/**
 	 * Generate the charset tag for a page

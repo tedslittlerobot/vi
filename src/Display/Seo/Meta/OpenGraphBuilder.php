@@ -1,15 +1,15 @@
 <?php namespace Vi\Display\Seo\Meta;
 
-trait OpenGraphTrait {
+class OpenGraphBuilder {
 
 	/**
-	 * Generate an open graph tag for the given
+	 * Generate an open graph tag
 	 *
 	 * @param  string $name
 	 * @param  string $value
 	 * @return string
 	 */
-	public function openGraph( $name, $value )
+	public function tag( $name, $value )
 	{
 		return sprintf('<meta property="og:%s" content="%s" />', $name, e($value));
 	}
