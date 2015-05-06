@@ -41,28 +41,28 @@ class TabularPresenter implements Renderable {
 	/**
 	 * The items to loop over
 	 *
-	 * @var mixed
+	 * @var array
 	 */
 	protected $items = [];
 
 	/**
 	 * The columns to loop over
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $columns = [];
 
 	/**
 	 * The sortable columns
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $sortableColumns = [];
 
 	/**
 	 * The view to render the table with
 	 *
-	 * @var string
+	 * @var array<string>
 	 */
 	protected $view = 'vi::support.table';
 
@@ -72,12 +72,12 @@ class TabularPresenter implements Renderable {
 		$this->url = $url;
 	}
 
-	// ! Getters & Setters
+	/////// GETTERS + SETTERS ///////
 
 	/**
 	 * Set the presenter's items
 	 *
-	 * @param mixed $items
+	 * @param array $items
 	 */
 	public function setItems( $items )
 	{
@@ -88,7 +88,7 @@ class TabularPresenter implements Renderable {
 	/**
 	 * Get the items to show
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function items()
 	{
@@ -98,7 +98,7 @@ class TabularPresenter implements Renderable {
 	/**
 	 * Set the columns to display
 	 *
-	 * @param mixed $items
+	 * @param array<string> $items
 	 */
 	public function setColumns( $columns )
 	{
@@ -109,7 +109,7 @@ class TabularPresenter implements Renderable {
 	/**
 	 * Set the columns to display
 	 *
-	 * @param mixed $items
+	 * @param array<string> $items
 	 */
 	public function columns()
 	{
@@ -119,7 +119,7 @@ class TabularPresenter implements Renderable {
 	/**
 	 * Set the columns to display
 	 *
-	 * @param mixed $items
+	 * @param array<string> $items
 	 */
 	public function setSortable( $sortable )
 	{
@@ -127,7 +127,7 @@ class TabularPresenter implements Renderable {
 		return $this;
 	}
 
-	// ! Public Methods
+	/////// RENDER ///////
 
 	/**
 	 * Render the table
@@ -141,7 +141,7 @@ class TabularPresenter implements Renderable {
 			->render();
 	}
 
-	// ! Helpers
+	/////// SORTING ///////
 
 	/**
 	 * Generate a link to sort the content by the given column
@@ -186,13 +186,15 @@ class TabularPresenter implements Renderable {
 		return in_array($this->sortableColumns, $column);
 	}
 
+	/////// FORMATTERS ///////
+
 	/**
 	 * Get the header text for the given field.
 	 *
 	 * It will look for defined methods in the format `formatColumnHeader()`,
 	 * where `Column` is the studly name of the column.
 	 *
-	 * If no custom methods are used, it will convert the column to a human
+	 * If no custom methods are used, it will convert the column name to a human
 	 * readable string.
 	 *
 	 * @param  string $column
@@ -224,12 +226,14 @@ class TabularPresenter implements Renderable {
 	 */
 	public function formatField( $item, $column )
 	{
-		$method = 'format' . studly_case($column) . 'Value';
+		$method = 'format' . studly_case($column) . 'Field';
 
 		return method_exists($this, $method) ?
 			$this->{$method}($item) :
 			$this->escape( $item->{$column} );
 	}
+
+	/////// HELPERS ///////
 
 	/**
 	 * Escape the given content
