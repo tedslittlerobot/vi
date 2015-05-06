@@ -171,7 +171,7 @@ class TabularPresenter implements Renderable {
 	{
 		$direction = $this->url->getRequest()->query->get($column);
 
-		return in_array($direction, [static::$sortAscending : static::$sortDescending]) ?
+		return in_array($direction, [static::$sortAscending, static::$sortDescending]) ?
 			$direction : null;
 	}
 
