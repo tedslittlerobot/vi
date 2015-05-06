@@ -41,7 +41,7 @@ class OpenGraphBuilder {
 	 *
 	 * @todo parse method to get names from `$this->propertyNameTag($value)`
 	 * @param  string $method
-	 * @param  string $arguments
+	 * @param  array<String> $arguments
 	 * @return
 	 */
 	public function __call( $method, array $arguments )
