@@ -1,4 +1,4 @@
-<?php namespace Vi\Core\Auth\Registration;
+<?php namespace Vi\Core\Users\Auth;
 
 use Vi\Core\Users\User;
 

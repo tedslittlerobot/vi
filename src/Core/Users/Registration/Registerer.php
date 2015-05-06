@@ -1,4 +1,4 @@
-<?php namespace Vi\Core\Auth\Registration;
+<?php namespace Vi\Core\Users\Auth;
 
 use Vi\Core\Auth\Registration\RegistererInterface;
 use Vi\Core\Auth\Registration\SendsConfirmationEmail;
