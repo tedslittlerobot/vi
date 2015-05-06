@@ -4,9 +4,9 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
 
-use Vi\Core\Auth\Registration\SendsConfirmationEmail;
 use Vi\Core\Auth\Registration\RegistererInterface as Registerer;
 use Vi\Core\Framework\Http\Controllers\Controller;
+use Vi\Core\Users\Registration;
 
 /**
  * @Middleware("guest")

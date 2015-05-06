@@ -108,7 +108,7 @@ class ApprovalScope implements ScopeInterface {
 	}
 
 	/**
-	 * Add the whereApproved extension to the builder.
+	 * Add the whereNotRejected extension to the builder.
 	 *
 	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
 	 * @return void
