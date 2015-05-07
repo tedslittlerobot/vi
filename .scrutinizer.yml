@@ -1,3 +1,17 @@
+build:
+    dependencies:
+        before:
+            - mkdir -p ~/artifacts/coverage
+    environment:
+        php:
+            version: 5.6.0
+    tests:
+        override:
+            -
+                command: make scrutinizer-test SUITE=unit
+                coverage:
+                    file: ~/artifacts/coverage/unit.xml
+                    format: php-clover
 filter:
     paths:
         - src/*
