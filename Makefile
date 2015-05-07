@@ -18,7 +18,7 @@ scrutinizer-prepare:
 
 scrutinizer-test: scrutinizer-prepare
 	@./vendor/bin/phpunit -v --testsuite "$(SUITE)" --coverage-clover="~/artifacts/coverage/$(SUITE).xml"
-	@.echo "Written clover file to ~/artifacts/coverage/$(SUITE).xml"
+	@echo "Written clover file to ~/artifacts/coverage/$(SUITE).xml"
 
 coverage:
 	@./vendor/bin/phpunit --coverage-html $(REPORT_DIR)
