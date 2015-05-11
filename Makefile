@@ -13,6 +13,13 @@ reset:
 test:
 	@./vendor/bin/phpunit -v --testsuite "$(SUITE)"
 
+scrutinizer-prepare:
+	@mkdir -p ~/artifacts/coverage
+
+scrutinizer-test: scrutinizer-prepare
+	@./vendor/bin/phpunit -v --testsuite "$(SUITE)" --coverage-clover="/home/scrutinizer/artifacts/coverage/$(SUITE).xml"
+	@echo "Written clover file to /home/scrutinizer/artifacts/coverage/$(SUITE).xml"
+
 coverage:
 	@./vendor/bin/phpunit --coverage-html $(REPORT_DIR)
 
