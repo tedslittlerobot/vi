@@ -24,6 +24,7 @@ class BladeServiceProvider extends ServiceProvider {
 			'Errors',
 			'Notices',
 			'Title',
+			'Foreachindex',
 		];
 
 		foreach( $tags as $tag )
@@ -170,6 +171,40 @@ class BladeServiceProvider extends ServiceProvider {
 				'$1<?php echo e(isset($title) ? $title : $2) ?>',
 				$view
 			);
+			return $view;
+		};
+	}
+
+	/**
+	 * Compile the foreachindex tag
+	 *
+	 * @todo do forelseindex tag - this should probably use BladeCompiler's compileForelse method somehow
+	 *
+	 * @return Closure
+	 */
+	public function compileForeachindex()
+	{
+		/**
+		 * @foreachindex($list as $key => $item)
+		 * @forelseindex($list as $key => $item)
+		 */
+		return function($view, $compiler)
+		{
+			// @foreachindex
+			$view = preg_replace(
+				$compiler->createPlainMatcher('foreachindex'),
+				'$1<?php $index = -1; foreach($2): $index++; ?>',
+				$view
+			);
+
+			// @forelseindex
+			// $compiler->compileForelse( $expression /* ($thing as $other) - including brackets */ );
+			/*$view = preg_replace(
+				$compiler->createPlainMatcher('forelseindex'),
+				'$1<?php $index = -1; foreach($2): $index++; ?>',
+				$view
+			);*/
+
 			return $view;
 		};
 	}
